@@ -16,21 +16,21 @@ const uri = "mongodb+srv://ANAMERASUL007:ANAMERASUL007@cluster0.8t0mz.mongodb.ne
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
-const run = async () => {
-    try {
-        await client.connect();
-        const usercollection = client.db("foodexpress").collection("users");
+// const run = async () => {
+//     try {
+//         await client.connect();
+//         const usercollection = client.db("foodexpress").collection("users");
 
-        const users = { name: 'mahi', email: 'mahi@gmail.com' }
-        const result = await usercollection.insertOne(users)
-        console.log(`inserted with the _id: ${result.insertedId}`)
+//         const users = { name: 'mahi', email: 'mahi@gmail.com' }
+//         const result = await usercollection.insertOne(users)
+//         console.log(`inserted with the _id: ${result.insertedId}`)
 
-    } finally {
-        // await client.close();
-    }
+//     } finally {
+//         // await client.close();
+//     }
 
-}
-run().catch(console.dir);
+// }
+// run().catch(console.dir);
 // const con = mysql.createConnection({
 //     host: "localhost",
 //     user: "root",
@@ -64,6 +64,24 @@ run().catch(console.dir);
 //     });
 // });
 
+
+const run = async () => {
+    try {
+        await client.connect();
+        const userCollection = client.db('foodexprss').collection('user')
+        app.post('/', (req, res) => {
+
+
+        })
+
+    }
+
+    finally {
+
+    }
+}
+
+run().catch(console.dir)
 
 app.use(cors())
 
