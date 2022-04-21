@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const AddUser = () => {
-
-    const { users, setUsers } = useState({})
 
     const handleAddUser = (e) => {
         e.preventDefault()
@@ -24,6 +22,9 @@ const AddUser = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                alert('user add success')
+
+                e.target.reset()
             })
             .catch((error) => {
                 console.error('Error:', error);

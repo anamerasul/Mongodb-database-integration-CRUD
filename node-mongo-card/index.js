@@ -3,11 +3,18 @@ import express from "express";
 // import mysql from "mysql";
 
 
-import { MongoClient, ServerApiVersion } from "mongodb"
+import { MongoClient, ServerApiVersion, ObjectId } from "mongodb"
+
+
 
 import cors from "cors";
 
+
+
 const app = express()
+
+const myobjectid = ObjectId.ObjectId
+
 
 
 
@@ -75,15 +82,39 @@ const run = async () => {
     try {
         await client.connect();
         const userCollection = client.db('foodexprss').collection('user')
-        app.post('/user', (req, res) => {
+
+
+        app.get('/user', async (req, res) => {
+            const query = {};
+            const cursor = userCollection.find(query)
+
+            const users = await cursor.toArray()
+
+            res.send(users)
+
+        })
+
+        // post user
+        app.post('/user', async (req, res) => {
 
             const newUser = req.body
 
             console.log('adding new user', newUser)
 
-            res.send({ result: 'success' })
+            const result = await userCollection.insertOne(newUser)
+
+            res.send(result)
 
 
+        })
+
+        app.delete('/user/:id', async (req, res) => {
+
+            const id = req.params.id;
+
+            const query = { _id: myobjectid(id) };
+
+            res.send(query)
         })
 
     }
