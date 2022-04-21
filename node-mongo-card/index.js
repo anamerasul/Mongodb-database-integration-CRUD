@@ -5,15 +5,28 @@ import express from "express";
 
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb"
 
-
+// import {ObjectId} from "mongodb/ObjectId"
 
 import cors from "cors";
+
+
+// const myObjectId = (id) => {
+//     ObjectId(id)
+
+// }
+
+const myObjectId = () => ObjectId
+
+
+// const ObjectId = require('mongodb').ObjectId;
+
 
 
 
 const app = express()
 
-const myobjectid = ObjectId.ObjectId
+
+// console.log(myObjectId)
 
 
 
@@ -94,6 +107,15 @@ const run = async () => {
 
         })
 
+        app.get('user/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: myObjectId(id) }
+
+            const result = await userCollection.findOne(query)
+            res.send(result)
+
+        })
+
         // post user
         app.post('/user', async (req, res) => {
 
@@ -107,14 +129,13 @@ const run = async () => {
 
 
         })
+        app.delete(`/user/:id`, async (req, res) => {
 
-        app.delete('/user/:id', async (req, res) => {
 
             const id = req.params.id;
-
-            const query = { _id: myobjectid(id) };
-
-            res.send(query)
+            const query = { _id: myObjectId(id) };
+            const result = await userCollection.deleteOne(query);
+            res.send(result);
         })
 
     }
