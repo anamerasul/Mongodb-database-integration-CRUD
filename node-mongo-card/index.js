@@ -10,7 +10,13 @@ import cors from "cors";
 const app = express()
 
 
+
+
 const port = process.env.PORT || 5000;
+
+app.use(cors())
+
+app.use(express.json())
 
 const uri = "mongodb+srv://ANAMERASUL007:ANAMERASUL007@cluster0.8t0mz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -69,7 +75,13 @@ const run = async () => {
     try {
         await client.connect();
         const userCollection = client.db('foodexprss').collection('user')
-        app.post('/', (req, res) => {
+        app.post('/user', (req, res) => {
+
+            const newUser = req.body
+
+            console.log('adding new user', newUser)
+
+            res.send({ result: 'success' })
 
 
         })
@@ -77,15 +89,13 @@ const run = async () => {
     }
 
     finally {
-
+        // await client.close();
     }
 }
 
 run().catch(console.dir)
 
-app.use(cors())
 
-app.use(express.json())
 
 app.get("/", (req, res) => {
     res.send(` running my curd nod de`)
