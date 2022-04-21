@@ -15,7 +15,7 @@ import cors from "cors";
 
 // }
 
-const myObjectId = () => ObjectId
+// const myObjectId = () => ObjectId
 
 
 // const ObjectId = require('mongodb').ObjectId;
@@ -107,14 +107,12 @@ const run = async () => {
 
         })
 
-        app.get('user/:id', async (req, res) => {
-            const id = req.params.id
-            const query = { _id: myObjectId(id) }
-
-            const result = await userCollection.findOne(query)
-            res.send(result)
-
-        })
+        app.get('/user/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await userCollection.findOne(query);
+            res.send(result);
+        });
 
         // post user
         app.post('/user', async (req, res) => {
@@ -129,11 +127,31 @@ const run = async () => {
 
 
         })
+
+        //update user
+
+        app.put('/user/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedUser = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    name: updatedUser.name,
+                    email: updatedUser.email
+                }
+            };
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+
+        })
+
+
         app.delete(`/user/:id`, async (req, res) => {
 
 
             const id = req.params.id;
-            const query = { _id: myObjectId(id) };
+            const query = { _id: ObjectId(id) };
             const result = await userCollection.deleteOne(query);
             res.send(result);
         })
